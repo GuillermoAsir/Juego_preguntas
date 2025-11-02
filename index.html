@@ -429,8 +429,518 @@
         ],
         correctAnswer: 0
         },
+        {
+    question: "¿Por qué se produjo la crisis del software en los inicios de la industria del software?",
+    options: [
+      "La falta de lenguajes de programación de alto nivel que facilitaran la creación de programas para arquitecturas complejas.",
+      "La escasez de tiempo y recursos destinados al análisis y a la realización de pruebas de seguridad.",
+      "El exceso de inversión en hardware en detrimento del análisis de requisitos.",
+      "La ausencia de arquitecturas de software modulares que permitieran la reutilización del código."
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "¿Qué hace la Unidad Aritmético Lógica (ALU) en el procesador?",
+    options: [
+      "Coordina el ámbito de las variables locales y globales, asegurando que solo sean visibles dentro de su función o bloque.",
+      "Gestiona el acceso y la transferencia de bits agrupados en unidades denominadas instrucciones en la memoria principal.",
+      "Obtiene la siguiente instrucción a ejecutar, la interpreta y manda 'órdenes' a los diferentes elementos del equipo.",
+      "Realiza operaciones matemáticas y lógicas sencillas, como sumas, restas o comparar los valores entre sí."
+    ],
+    correctAnswer: 3
+  },
+  {
+    question: "En los lenguajes de tipado fuerte, ¿qué característica asegura que las operaciones coincidan con los tipos de datos definidos?",
+    options: [
+      "Evita Errores de Tipos: La principal ventaja de estos lenguajes es que ayudan a prevenir errores de tipos en el código.",
+      "Verificación de Tipos en Tiempo de Compilación: Los lenguajes de tipado fuerte realizan una verificación estricta de tipos durante la compilación.",
+      "No se Realizan Conversiones Implícitas: Si se desea convertir un tipo de dato a otro, generalmente debe hacerse de manera explícita.",
+      "Mejor Legibilidad y Mantenibilidad: El tipado fuerte proporciona una estructura clara de tipos de datos y operaciones permitidas."
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "¿Qué lenguaje de tipado fuerte se ejecuta en la JVM y combina programación funcional con orientada a objetos?",
+    options: ["TypeScript", "Java", "Scala", "Kotlin"],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Cuándo se destruyen las variables locales en un programa?",
+    options: [
+      "Cuando el bloque de declaraciones en el que se encuentran finaliza su definición inicial.",
+      "Solo cuando el programa principal (ámbito global) llega a su fin.",
+      "Se destruyen al completar la fase de linkado del programa ejecutable.",
+      "Cuando la función o bloque en el que están definidas finaliza su ejecución."
+    ],
+    correctAnswer: 3
+  },
+  {
+    question: "En JavaScript, un lenguaje de tipado débil, ¿qué se puede hacer sin conversiones explícitas?",
+    options: [
+      "Permite operaciones entre diferentes tipos de datos sin la necesidad de conversiones explícitas.",
+      "Impone el uso de un sistema de tipos sólido para la programación funcional y orientada a objetos.",
+      "Garantiza la seguridad y previene errores de memoria, al igual que los lenguajes de sistemas de bajo nivel.",
+      "Permite la Verificación de Tipos en Tiempo de Compilación para garantizar la coherencia de las asignaciones."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué diferencia hay entre `While` y `Do-While` en cuanto a su ejecución?",
+    options: [
+      "El bloque de instrucciones se ejecuta en cada iteración, aunque no suele ser usual indicar varias instrucciones separadas por comas.",
+      "Se ejecuta el bloque contenido en la estructura mientras se cumpla la condición lógica, y posee un bloque de inicialización.",
+      "A diferencia del `Do-While`, el `While` puede no ejecutarse ninguna vez si la condición es falsa desde el inicio.",
+      "La evaluación de la condición se ejecuta siempre al final del bloque de instrucciones, garantizando al menos una ejecución."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Cuál es la diferencia principal entre pasar un parámetro 'por valor' y 'por referencia'?",
+    options: [
+      "El paso por valor permite a las funciones llamarse a sí mismas, lo que se conoce como recursión para la abstracción del código.",
+      "Cuando se pasa por valor se realiza una copia de la variable, por lo que los cambios dentro de la función no afectan a la variable original.",
+      "Solo el paso por referencia permite el retorno de un valor al finalizar la ejecución de la función mediante la palabra clave `return`.",
+      "Cuando se pasa por referencia, la función utiliza siempre la dirección de memoria inicial del objeto, sin realizar copias de la variable."
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "En lenguajes antiguos como C, ¿qué tipo de valores se podían usar en una sentencia `Switch`?",
+    options: [
+      "Se limitaba a comparar exclusivamente valores flotantes o de punto decimal.",
+      "Se limitaba a evaluar solamente cadenas de texto y valores booleanos.",
+      "Se limitaba a comparar números enteros o caracteres, sin capacidad para evaluar cadenas, booleanos o enumerados.",
+      "Se limitaba a expresiones que devolvieran un valor de referencia o puntero a memoria."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Para qué se usa normalmente una función recursiva?",
+    options: [
+      "Se utiliza para especificar el valor que la función devolverá como resultado de su ejecución, utilizando la palabra clave `return`.",
+      "Se utiliza para la encapsulación y agrupación de funcionalidades relacionadas en librerías o módulos reutilizables.",
+      "Se utiliza para la resolución de problemas que pueden descomponerse en subproblemas que son similares a la tarea principal.",
+      "Se utiliza principalmente para proporcionar una interfaz simple, permitiendo así abstraer la complejidad del código del programa."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "Según los fundamentos de la programación, ¿qué es una variable?",
+    options: [
+      "Es una fracción de código identificado por un nombre que se puede reutilizar, que devuelve un tipo de datos y que recibe una serie de argumentos llamados parámetros.",
+      "Se asocia un nombre a una zona de memoria, pero en este caso solo es posible la lectura, sin permitir la modificación posterior del valor almacenado.",
+      "Son expresiones que permiten modificar el flujo de ejecución del programa dependiendo de ciertas condiciones, clasificadas en alternativas o iterativas.",
+      "Es la asociación de un nombre simbólico con una zona de memoria de forma que se puede referenciar por el nombre y no por la dirección de memoria, permitiendo consultar y modificar su valor."
+    ],
+    correctAnswer: 3
+  },
+  {
+    question: "¿Qué lenguaje de tipado fuerte se enfoca en seguridad, rendimiento y combina características de bajo nivel con un sistema de tipos estricto?",
+    options: ["Rust", "C#", "Python", "Swift"],
+    correctAnswer: 0
+  },
+  {
+    question: "Para ejecutar un programa en un lenguaje interpretado, ¿qué debe estar cargado en memoria?",
+    options: [
+      "El intérprete se carga únicamente en la fase de traducción a bytecode, no siendo necesario durante la ejecución línea a línea.",
+      "Solo el código fuente necesita estar cargado en la memoria principal del equipo.",
+      "Tanto el intérprete como el código fuente deben estar cargados en memoria principal para su ejecución secuencial.",
+      "El código compilado a lenguaje objetivo debe ser cargado y enlazado con el intérprete en tiempo de ejecución."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Cuál es una ventaja de los lenguajes compilados respecto al programa resultante?",
+    options: [
+      "El código fuente original se compila en un formato binario, lo que puede ocultar el código a usuarios finales o terceros.",
+      "Permiten una mayor interactividad con el código en tiempo de desarrollo y una depuración más rápida.",
+      "El código generado para un sistema sólo funcionará para una arquitectura hardware determinada.",
+      "Ofrecen mayor flexibilidad y portabilidad del código fuente a través de diferentes plataformas de hardware."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "Si se quiere ejecutar un programa compilado en otro sistema o arquitectura, ¿qué hay que hacer?",
+    options: [
+      "Solo se requiere un intérprete compatible con el código intermedio (bytecode) generado inicialmente.",
+      "Es necesario volver a compilar con los parámetros requeridos para la arquitectura destino.",
+      "El código objeto puede ser traducido en tiempo de ejecución (JIT) por el sistema destino.",
+      "Es necesario implementar una Máquina Virtual que emule la arquitectura de desarrollo."
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "¿A qué se traduce un lenguaje de alto nivel mediante un 'traductor'?",
+    options: [
+      "Se convierte a lenguajes de bajo nivel como ensamblador o código máquina denominado código objeto.",
+      "Se traduce solamente a texto para garantizar la facilidad de portar el código fuente entre sistemas.",
+      "Se convierte siempre a un formato intermedio binario conocido como DLL o .SO, que se ejecuta en la JVM.",
+      "Se traduce exclusivamente a código fuente de otro lenguaje de alto nivel para asegurar la compatibilidad."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Cómo ejecuta el intérprete el código fuente en los lenguajes interpretados?",
+    options: [
+      "Compila primero todo el código fuente en bytecode y posteriormente lo interpreta completamente.",
+      "Traduce el código fuente línea a línea, detiene la traducción para ejecutarla, y luego pasa a la siguiente línea.",
+      "Utiliza un compilador Just-In-Time para traducir porciones del código fuente a medida que se va necesitando.",
+      "Traduce el programa entero de un lenguaje a otro denominado lenguaje Objetivo antes de la ejecución."
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "¿Qué hace especial a la compilación JIT en entornos como Java o .NET?",
+    options: [
+      "Reduce la necesidad de librerías dinámicas, ya que todo el código se compila previamente a un código intermedio ejecutable.",
+      "Permite compilar porciones del código fuente a medida que se necesita durante la ejecución, lo que lleva a optimizaciones específicas de la plataforma.",
+      "Facilita la ocultación del código fuente a usuarios finales o terceros, ya que el resultado es siempre un formato binario.",
+      "Asegura que la etapa de desarrollo sea más fácil y que el proceso de depuración (corrección de errores en tiempo de desarrollo) sea más rápido."
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "¿Qué lenguaje primero compila a bytecode y luego lo ejecuta en una máquina virtual?",
+    options: ["C/C++", "Java", "Perl", "Python"],
+    correctAnswer: 1
+  },
+  {
+    question: "¿Qué ventaja tiene la interpretación frente a la compilación en cuanto al uso de memoria?",
+    options: [
+      "La compilación garantiza la ocultación del código, lo que se traduce en un menor consumo de memoria.",
+      "Los lenguajes compilados son inherentemente más eficientes en tiempo de ejecución que los interpretados.",
+      "El intérprete necesita menos memoria que un compilador al trabajar directamente con el código fuente.",
+      "La compilación JIT puede reducir el consumo de memoria al aplicar optimizaciones específicas de la plataforma."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Por qué los lenguajes compilados suelen ser más eficientes que los interpretados?",
+    options: [
+      "Ya que se pueden ejecutar inmediatamente y el proceso de depuración es más rápido que en los interpretados.",
+      "Debido a que el código objeto se ejecuta mucho más rápido que si se interpreta el programa fuente.",
+      "Porque permiten una mayor interactividad con el código en tiempo de desarrollo, facilitando la eficiencia del programador.",
+      "Porque están diseñados para ser independientes de la plataforma, lo que incrementa su portabilidad y eficiencia."
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "¿Qué diferencia hay entre un editor de código y un procesador de texto al escribir programas?",
+    options: [
+      "Los editores de código trabajan únicamente con texto plano (sin formato), a diferencia de los procesadores que almacenan texto junto con formato e imágenes.",
+      "Los Editores de Código siempre son gratuitos y de código abierto, mientras que los Procesadores de Texto suelen ser aplicaciones comerciales de pago.",
+      "Un Procesador de Texto no puede ser utilizado para escribir el código fuente, ya que no permite el uso de lenguajes de bajo nivel como el ensamblador.",
+      "El Editor de Código proporciona herramientas de depuración y ejecución en tiempo real, mientras que el Procesador de Texto solo maneja la escritura de documentos."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "En la generación de un programa ejecutable, ¿qué hace la fase de 'linkado'?",
+    options: [
+      "Convierte el código intermedio (bytecode) a código máquina específico de la plataforma, optimizando el rendimiento mediante JIT.",
+      "Se encarga de compilar el código fuente para obtener el código objeto específico para una determinada arquitectura de hardware.",
+      "Une los diferentes ficheros de código objeto y las librerías externas que son necesarias para la correcta ejecución del programa.",
+      "Es la etapa donde se realizan las pruebas unitarias y de integración para asegurar que los componentes operan correctamente."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Cuándo se considera que un editor de texto plano es un 'Editor de Código'?",
+    options: [
+      "Si permite almacenar información sobre el autor, la licencia y la descripción del fichero en un bloque de comentarios inicial.",
+      "Si se ejecuta únicamente en modo texto desde la línea de comandos, como Nano o Vim, en entornos Linux.",
+      "Si además de la edición básica de texto, incluye funcionalidades avanzadas que están relacionadas directamente con la programación.",
+      "Si está preinstalado en el sistema operativo, como el editor Notepad en Windows, sin necesidad de instalación adicional."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Qué destaca del editor Sublime Text según el documento?",
+    options: [
+      "Es el editor de texto básico preinstalado en Windows, siendo ligero pero careciendo de características avanzadas para la codificación.",
+      "Su compatibilidad nativa con el desarrollo web mediante herramientas integradas para HTML, CSS y JavaScript.",
+      "Posee una curva de aprendizaje empinada, pero es muy apreciado por usuarios avanzados debido a su extrema eficiencia.",
+      "La característica principal que lo distingue es su gran velocidad y facilidad de uso, además de ofrecer múltiples vistas."
+    ],
+    correctAnswer: 3
+  },
+  {
+    question: "¿Qué se dice sobre Visual Studio Code (VSCode) en cuanto a su comunidad?",
+    options: [
+      "Es un editor comercial que está optimizado exclusivamente para el desarrollo de aplicaciones en el entorno .NET de Windows.",
+      "Se caracteriza por ser un editor de código abierto desarrollado por GitHub que se puede utilizar en modo texto.",
+      "Admite una gran variedad de lenguajes de programación y posee una comunidad activa dedicada a la creación de extensiones y complementos.",
+      "Es parte del entorno de escritorio GNOME y ofrece una interfaz de usuario sencilla y soporte robusto para complementos."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Qué tienen en común Emacs y Vim en cuanto a su curva de aprendizaje?",
+    options: [
+      "Ambos se limitan a la edición de texto plano y carecen de soporte para resaltado de sintaxis o plegado de código en entornos modernos.",
+      "Ambos tienen una curva de aprendizaje empinada, pero son considerados herramientas extremadamente potentes y versátiles por usuarios avanzados.",
+      "Se distinguen por ser los únicos editores que realizan verificación de tipos estricta en tiempo de compilación para la programación de sistemas.",
+      "Los dos son editores de texto diseñados para entornos gráficos como GNOME y KDE, facilitando su uso a programadores principiantes."
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "¿Qué editor de código abierto está pensado específicamente para desarrollo web con HTML, CSS y JavaScript?",
+    options: ["Brackets", "Atom", "Sublime Text", "Notepad++"],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué editor de Linux es fácil de usar y adecuado para principiantes?",
+    options: ["Nano", "KWrite", "Vim", "Emacs"],
+    correctAnswer: 0
+  },
+  {
+    question: "Cuando el ejecutable no es específico de una arquitectura, ¿qué formato de lenguaje intermedio se obtiene tras el linkado?",
+    options: [
+      "CLI o BYTECODE que posteriormente se ejecutan mediante una máquina virtual.",
+      "Librerías dinámicas en formato .DLL o .SO que contienen únicamente las declaraciones de los objetos del programa.",
+      "Ensamblador de bajo nivel o código fuente de alto nivel optimizado que requiere un motor de traducción JIT.",
+      "El código objeto que será ejecutado por el sistema de forma estática, siempre que esté correctamente firmado."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué problema solucionan las librerías dinámicas en el proceso de ejecución del software?",
+    options: [
+      "El elevado tiempo de carga del software y el espacio necesario en la memoria principal debido al gran tamaño de los ejecutables generados.",
+      "La imposibilidad de ejecutar código intermedio (bytecode) sin la presencia obligatoria de un compilador Just-In-Time (JIT) integrado en el sistema.",
+      "La incapacidad de ocultar el código fuente a usuarios finales o terceros debido a que el resultado de la compilación no era binario.",
+      "El conflicto de ámbito de las variables y constantes globales que se encuentran definidas en los diferentes ficheros de código objeto."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué riesgo de seguridad presentan las librerías dinámicas según el documento?",
+    options: [
+      "Pueden causar un bloqueo completo del sistema operativo al intentar cargar fragmentos de código binario sin las firmas digitales adecuadas.",
+      "Son un punto de entrada para virus y malware al inyectar código mediante las librerías para interceptar llamadas del sistema y poder modificarlas.",
+      "El código generado puede ser fácilmente revertido a su código fuente original, comprometiendo la propiedad intelectual del software.",
+      "La ejecución simultánea en memoria de múltiples versiones de la misma librería aumenta la probabilidad de fallos de segmentación."
+    ],
+    correctAnswer: 1
+  },
+  {
+    question: "¿Qué significa el “infierno de las DLLs”?",
+    options: [
+      "Describe la complejidad de gestionar la carga y descarga de fragmentos de código binario compartido en la memoria principal del equipo por diferentes procesos que compiten por el mismo recurso.",
+      "Se refiere al problema de que la librería dinámica se borre del sistema cuando uno de los programas que la utilizan es desinstalado, inutilizando a las demás aplicaciones que dependían de ella.",
+      "Se refiere al problema de que una aplicación necesita una versión específica de una librería, mientras que el sistema solo puede albergar y cargar simultáneamente una versión distinta.",
+      "Describe la complejidad de administrar las dependencias de código objeto que son requeridas por las librerías dinámicas durante la fase de linkado del programa ejecutable."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "En el bloque de instrucciones de un programa, ¿qué hacen las instrucciones de 'Proceso'?",
+    options: [
+      "Son aquellas cuya finalidad directa es alcanzar el objetivo del programa a partir de la información proporcionada en la fase de entrada.",
+      "Se encargan de almacenar la información en dispositivos de salida como la pantalla o de registrarla en ficheros o bases de datos.",
+      "Son las que garantizan que el código intermedio (CLI o BYTECODE) se traduzca correctamente a código máquina de la arquitectura de destino.",
+      "Su finalidad es obtener la información aportada desde el exterior y almacenarla en los elementos del bloque de declaraciones (variables)."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué incluye el bloque de declaraciones en un programa?",
+    options: [
+      "Incluye la declaración y la instanciación de todos los objetos y elementos a procesar, tales como variables y constantes necesarias.",
+      "Contiene las instrucciones clasificadas como Entrada, Proceso y Salida, que permiten lograr el objetivo final del programa al interactuar con el exterior.",
+      "Incluye las funciones y clases externas que se van a utilizar en el programa, referenciadas como librerías o paquetes externos.",
+      "Contiene la definición del fichero/clase, la descripción del autor y la licencia de uso del código fuente, para su documentación y posterior comprensión."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Cuál es la función de las instrucciones de 'Salida' en un programa?",
+    options: [
+      "Encargarse de almacenar la información, por ejemplo en un fichero o BBDD, o mostrarla en un dispositivo de salida como la pantalla.",
+      "Alcanzar el objetivo del programa mediante la manipulación de información proporcionada por las instrucciones de Entrada.",
+      "Obtener información aportada desde el exterior necesaria para el procesamiento de los datos en el bloque principal.",
+      "Permitir la reutilización de código mediante la modularidad y la estructuración del código en componentes separados."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "En lenguajes que permiten modularidad, ¿qué concepto se usa para agrupar y encapsular código?",
+    options: ["Bloque de uso de elementos externos", "Espacio de Nombre o Paquete", "Bloque de definición del fichero/Clase", "Bloque de Instrucciones"],
+    correctAnswer: 1
+  },
+  {
+    question: "¿En qué parte del código se incluyen comentarios sobre autor, licencia o propósito?",
+    options: ["Bloque de Declaraciones", "Bloque de uso de elementos externos", "Bloque de definición del fichero/Clase", "Bloque de Instrucciones (Salida)"],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Para qué sirve el bloque de uso de elementos externos en un programa?",
+    options: [
+      "Indicar las clases o funciones externas que se van a utilizar en el programa, denominados librerías o paquetes, promoviendo la reutilización del código.",
+      "Definir si el código fuente será traducido a un lenguaje intermedio de bajo nivel (CLI o BYTECODE) antes de su ejecución en la máquina virtual.",
+      "Asegurar que todas las variables tengan un ámbito local estricto, impidiendo su visibilidad o accesibilidad fuera del módulo o paquete actual.",
+      "Establecer las sentencias de control iterativas (While, Do-While, For) que modifican el flujo de ejecución del programa basándose en condiciones lógicas."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué lenguaje se menciona como ejemplo donde los módulos actúan como espacios de nombres?",
+    options: ["Python", "C#", "Java", "C/C++"],
+    correctAnswer: 0
+  },
+  {
+    question: "Según Edsger Dijkstra, ¿qué limitación tienen las pruebas de software?",
+    options: [
+      "La función principal de las pruebas de software es validar que el software hace lo que el usuario quiere, no verificar que cumple las especificaciones de diseño.",
+      "Las pruebas solo pueden aumentar la confianza en la calidad de un programa, pero nunca pueden demostrar que el código está libre de cualquier tipo de error.",
+      "La prueba de software puede usarse para mostrar la presencia de errores, pero nunca para mostrar su ausencia.",
+      "Las pruebas de software pueden confirmar que el software cumple con todos sus requisitos, pero no si está construido correctamente."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Cuál es el objetivo principal de las pruebas de software según el documento?",
+    options: [
+      "Detectar la presencia de posibles defectos del software cuanto antes para poder corregirlos y minimizar la probabilidad de problemas en producción.",
+      "Evaluar la usabilidad y la experiencia del usuario para proporcionar retroalimentación valiosa sobre la interfaz de usuario y su navegación.",
+      "Garantizar que el software cumple con los estándares y regulaciones de la industria mediante la evaluación por terceros independientes.",
+      "Demostrar que la lógica del código está bien estructurada y que funcionará correctamente en todos los casos de uso definidos."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "En el Modelo V, ¿qué proceso comprueba que cada nivel del desarrollo se ha hecho correctamente?",
+    options: [
+      "La Validación, ya que debe asegurar que el software cumple con lo requerido por el cliente al verificar los resultados del desarrollo.",
+      "Las Pruebas Unitarias o de Componentes, que se centran en probar un único componente de forma aislada para garantizar su funcionalidad atómica.",
+      "La Verificación, que busca determinar si el software se ha construido correctamente según lo planeado en las especificaciones y requisitos definidos.",
+      "La Pruebas de Integración, que permiten probar las comunicaciones de un grupo de componentes que están relacionados con un propósito común."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Qué aportan los profesionales de pruebas que no tienen los desarrolladores?",
+    options: [
+      "Proporcionan una visión fresca y objetiva, ayudando a descubrir errores que los desarrolladores podrían pasar por alto debido a su conocimiento íntimo del código.",
+      "Aseguran que el entorno donde se realizan las pruebas de sistema sea muy parecido al de la puesta en producción para reducir errores post-despliegue.",
+      "Permiten que las pruebas sean ejecutadas en distinto orden sin que esto afecte a su resultado final, lo que es clave para las pruebas unitarias.",
+      "Garantizan que las pruebas se lleven a cabo únicamente por el cliente, en el lugar de desarrollo y en un entorno estrictamente controlado."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "Según la jerarquía de pruebas, ¿qué nivel está en el extremo opuesto de las pruebas unitarias?",
+    options: [
+      "Las Pruebas de Sistema, que tienen como objetivo ejercitar profundamente el sistema de información comprobando su funcionamiento global.",
+      "Las Pruebas Funcionales, cuyo objetivo es comprobar si el sistema realiza correctamente todas las funciones que se han detallado.",
+      "Las Pruebas de Aceptación, que tienen una integración absoluta de todos los elementos y una visión global del sistema propia del cliente final.",
+      "Las Pruebas de Integración, que buscan identificar problemas que ocurren cuando las unidades previamente probadas se combinan."
+    ],
+    correctAnswer: 2
+  },
+  {
+    question: "¿Qué pruebas se hacen al final del desarrollo y son realizadas por el cliente y los usuarios finales?",
+    options: ["Pruebas de Aceptación", "Pruebas Unitarias", "Pruebas de Sistema", "Pruebas de Integración"],
+    correctAnswer: 0
+  },
+  {
+    question: "En pruebas unitarias, ¿por qué es importante que no dependan del entorno ni entre ellas?",
+    options: [
+      "Debido a este principio, muchas herramientas de Testing unitario ejecutan las pruebas de forma aleatoria, sin afectar su resultado final.",
+      "Porque al dividir el código en pequeños fragmentos, permite probar distintas partes del proyecto sin tener que esperar a que otras estén finalizadas.",
+      "Para que la lógica del código demuestre que está bien estructurada y que funcionará en todos los casos previstos de manera eficiente y escalable.",
+      "Porque es la única forma de garantizar que el código final será más limpio y de mayor calidad, al estar realizando pruebas de manera continua en tiempo real."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué pregunta responde el proceso de Verificación (y no la Validación)?",
+    options: [
+      "¿El software cumple con sus requisitos y ha sido construido correctamente según lo planeado en la fase de diseño?",
+      "¿Hace el software lo que el usuario realmente quiere, cumpliendo así con las necesidades del propietario?",
+      "¿Estamos construyendo el producto correcto, asegurando la satisfacción de los requisitos del cliente?",
+      "¿El proceso de pruebas es realizado por terceros independientes para garantizar el cumplimiento de estándares y regulaciones de la industria?"
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Cuál es el propósito de las pruebas de integración?",
+    options: [
+      "Verificar la funcionalidad y la seguridad entre los componentes que han sido integrados, identificando problemas que ocurren cuando las unidades se combinan.",
+      "Comprobar el funcionamiento global del sistema, verificando las interfaces entre los distintos subsistemas que lo componen y reduciendo errores post-despliegue.",
+      "Servir para ayudar a decidir al cliente, si acepta el paso a producción del software programado, realizándose generalmente en el lugar de desarrollo.",
+      "Demostrar que la lógica del código está bien estructurada, aumentando la legibilidad y ayudando a los desarrolladores a entender rápidamente el código base."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Cómo se llaman las pruebas que evalúan rendimiento, estabilidad o recuperación del sistema?",
+    options: ["Pruebas No Funcionales (Performance)", "Pruebas Funcionales", "Pruebas de Integración", "Pruebas de Aceptación (Alfa y Beta)"],
+    correctAnswer: 0
+  },
+  {
+    question: "¿En qué se diferencian las pruebas Alfa de las Beta?",
+    options: [
+      "Las Alfa se llevan a cabo por el cliente, en el lugar de desarrollo y en un entorno controlado; las Beta las llevan a cabo los usuarios finales en lugares de trabajo no controlados por el desarrollador.",
+      "Las Alfa se enfocan en la funcionalidad y las Beta en el rendimiento (Pruebas No Funcionales), aunque ambas se realizan en el entorno del cliente.",
+      "Las Alfa se realizan por usuarios finales en un entorno no controlado por el desarrollador, mientras que las Beta se hacen en el lugar de desarrollo por el cliente.",
+      "Las Alfa se realizan sobre componentes aislados (pruebas unitarias) y las Beta sobre el sistema completo (pruebas de sistema), pero ambas con supervisión del desarrollador."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué tecnología usa un entorno aislado que comparte el kernel del sistema operativo y es más ligera que una VM?",
+    options: ["Máquina Virtual de Java (JVM)", "Contenedores (Containers)", "Virtual Private Server (VPS)", "Máquinas Virtuales (VM)"],
+    correctAnswer: 1
+  },
+  {
+    question: "Según buenas prácticas, ¿qué se recomienda para manejar errores en el código?",
+    options: [
+      "La implementación de try-catch para gestionar excepciones y evitar la exposición de información interna o sensible.",
+      "Asegurar que las funciones utilicen el paso de parámetros 'por valor' para prevenir modificaciones indeseadas.",
+      "La verificación de que el software cumpla con sus requisitos y haya sido construido correctamente, siguiendo los estándares de Verificación.",
+      "El uso de sentencias de control iterativas While para garantizar que el bucle no se ejecute ninguna vez en caso de error."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué riesgo mitigan los entornos controlados (sandboxes) a nivel de sistema?",
+    options: [
+      "Asegurar que si una aplicación aislada se compromete, no comprometa la estabilidad o la seguridad del sistema operativo principal.",
+      "Reducir el alto tiempo de carga y el espacio necesario en la memoria principal del equipo, causado por ejecutables muy grandes.",
+      "Evitar el conflicto de versiones conocido como 'infierno de las dlls' que ocurre cuando diferentes programas requieren la misma librería.",
+      "Disminuir la complejidad de la lógica del código, permitiendo la abstracción mediante la reutilización de funciones complejas."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "En entornos serverless como AWS Lambda, ¿qué ya no tiene que gestionar el desarrollador?",
+    options: [
+      "La necesidad de gestionar el servidor anfitrión, ya que permiten ejecutar código sin preocuparse por la infraestructura subyacente.",
+      "La implementación de las funciones hash para la criptografía a nivel de código, delegando esa tarea al proveedor de servicios.",
+      "La obligatoriedad de que las pruebas sean diseñadas y realizadas por un equipo de profesionales distinto al de los desarrolladores.",
+      "La necesidad de realizar la validación de parámetros de entrada con límites y limpieza de caracteres para el correcto manejo de errores."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué dos aspectos deben considerarse al validar parámetros de entrada por seguridad?",
+    options: [
+      "La limpieza de caracteres y la comprobación de límites de los datos recibidos para prevenir ataques de inyección.",
+      "Garantizar el cifrado y el uso de funciones hash, independientemente de que el dato sea sensible o no sensible.",
+      "Proteger datos sensibles como contraseñas, asegurando que se almacenen siempre en memoria volátil y no persistente.",
+      "Garantizar que se utilicen sentencias de control alternativas para tomar decisiones en función de la condición dada y el tipo de dato."
+    ],
+    correctAnswer: 0
+  },
+  {
+    question: "¿Qué mecanismo emula un sistema operativo completo dentro de otro?",
+    options: ["Máquinas Virtuales (VM)", "Servicios en la Nube (Serverless)", "Contenedores", "Virtual Private Server (VPS)"],
+    correctAnswer: 0
+  }
+];
         // (continúa con el resto de las preguntas en el mismo formato)
-        ];
 
 
         // --- Variables del juego ---
@@ -844,3 +1354,4 @@
     </script>
 </body>
 </html>
+
