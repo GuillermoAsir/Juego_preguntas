@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Duck Hunt - UT1 Quiz (Corregido)</title>
+    <style>
+        /* --- Estilos originales (sin recortar) adaptados --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #4a90e2;
+            font-family: 'Courier New', Courier, monospace;
+            overflow: hidden;
+            cursor: none; /* Ocultar cursor real */
+        }
+        .game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #4a90e2, #345c7a);
+            z-index: 1;
+        }
+        .ground {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 20%;
+            background: #6baf4d;
+            z-index: 2;
+        }
+        .tree { position: absolute; left: 5%; bottom: 20%; width: 15%; height: 60%; z-index: 3; }
+        .tree img { width: 100%; height: 100%; }
+        .dog { position: absolute; bottom: 20%; left: 40%; width: 20%; height: auto; z-index: 4; animation: dogBlink 3s infinite; }
+        .dog img { width: 100%; height: auto; }
+
+        .question-box {
+            position: absolute;
+            top: 10%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            max-width: 80%;
+            z-index: 5;
+            text-align: center;
+        }
+        .question-text { font-size: 1.2rem; margin-bottom: 20px; color: #333; }
+        .options-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .option {
+            background: #f0f0f0;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 200px;
+            text-align: center;
+            font-weight: bold;
+            border: 2px solid transparent;
+        }
+        .option:hover {
+            background: #e0e0e0;
+            transform: scale(1.05);
+        }
+        .option.selected {
+            border-color: #ff6b6b;
+            background: #ffe6e6;
+        }
+
+        /* Crosshair (sin cambios) */
+        .crosshair {
+            position: fixed;
+            width: 40px;
+            height: 40px;
+            pointer-events: none;
+            z-index: 1000;
+            background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj4KICA8Y2lyY2xlIGN4PSIyMCIgY3k9IjIwIiByPSIxNSIgc3Ryb2tlPSIjZmYwMDAwIiBzdHJva2Utd2lkdGg9IjIiIGZpbGw9Im5vbmUiIC8+CiAgPGxpbmUgeDE9IjIwIiB5MT0iNSIgeDI9IjIwIiB5Mj0iMzUiIHN0cm9rZT0iI2ZmMDAwMCIgc3Ryb2tlLXdpZHRoPSIyIiAvPgogIDxsaW5lIHgxPSI1IiB5MT0iMjAiIHgyPSIzNSIgeTI9IjIwIiBzdHJva2U9IiNmZjAwMDAiIHN0cm9rZS13aWR0aD0iMiIgLz4KPC9zdmc+') no-repeat center;
+            background-size: contain;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Targets (círculos rojos): ahora con letra interna */
+        .target {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            z-index: 6;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ff4b4b; /* rojo */
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            user-select: none;
+        }
+        .target:hover { transform: scale(1.1); }
+        .target .label {
+            position: absolute;
+            top: -18px;
+            font-size: 18px;
+            font-weight: 900;
+            color: #fff;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+        }
+        .target .option-letter {
+            pointer-events: none;
+            font-size: 18px;
+        }
+
+        .target.correct { /* opcional: efecto si quieres marcar resultado */
+            outline: 3px solid rgba(0,255,0,0.4);
+        }
+        .target.incorrect {
+            outline: 3px solid rgba(255,0,0,0.4);
+        }
+
+        .score-board {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            background: rgba(255,255,255,0.8);
+            padding: 10px;
+            border-radius: 10px;
+            z-index: 5;
+            font-weight: bold;
+        }
+
+        .feedback {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%);
+            background: rgba(255,255,255,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 30px rgba(0,0,0,0.4);
+            z-index: 100;
+            display: none;
+        }
+        .feedback h3 { margin-bottom: 15px; color: #333; }
+        .feedback p  { margin-bottom: 20px; color: #666; }
+        .feedback button { background: #4a90e2; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+        .feedback button:hover { background: #345c7a; }
+
+        @keyframes dogBlink { 0%{opacity:1}50%{opacity:0.8}100%{opacity:1} }
+        @keyframes flyIn {
+            from { transform: translateY(100px) rotate(-20deg); opacity: 0; }
+            to   { transform: translateY(0) rotate(0deg); opacity: 1; }
+        }
+
+        /* otros estilos originales: duck, start-screen, efectos... (se mantienen igual que en tu archivo) */
+        .duck { position:absolute; width:80px; height:80px; z-index:7; animation: flyIn 2s ease-out; background-size:contain; }
+        .duck.flying { animation: flyIn 3s ease-in-out infinite; }
+        .start-screen { position:absolute; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); display:flex; flex-direction:column; justify-content:center; align-items:center; z-index:200; color:white; }
+        .start-screen h1 { font-size:3rem; margin-bottom:20px; text-shadow:0 0 10px #4a90e2; }
+        .start-screen button { background:#4a90e2; color:white; border:none; padding:15px 30px; border-radius:10px; cursor:pointer; font-size:1.2rem; font-weight:bold; margin-top:20px; }
+        .start-screen button:hover { background:#345c7a; }
+
+        .shot-effect { position:absolute; width:100px; height:100px; background: radial-gradient(circle, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 70%); border-radius:50%; pointer-events:none; z-index:100; animation: shotPulse 0.5s ease-out; display:none; }
+        @keyframes shotPulse { 0% { transform:scale(0); opacity:1 } 100% { transform:scale(1); opacity:0 } }
+        .explosion { position:absolute; width:120px; height:120px; z-index:8; animation: explode 0.5s ease-out; display:none; background-size:contain; }
+        @keyframes explode { 0%{transform:scale(0);opacity:1}100%{transform:scale(1);opacity:0} }
+
+    </style>
+</head>
+<body>
+    <div class="game-container">
+        <div class="background"></div>
+        <div class="ground"></div>
+
+        <!-- árbol, perro, etc: (se mantienen los SVG embebidos originales) -->
+        <div class="tree">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmci..." alt="Árbol">
+        </div>
+        <div class="dog">
+            <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmci..." alt="Perro">
+        </div>
+
+        <div class="question-box" id="questionBox">
+            <div class="question-text" id="questionText">Cargando pregunta...</div>
+            <div class="options-container" id="optionsContainer"></div>
+        </div>
+
+        <div class="crosshair" id="crosshair"></div>
+        <div class="score-board" id="scoreBoard">Puntuación: 0</div>
+
+        <div class="feedback" id="feedback">
+            <h3 id="feedbackTitle">¡Correcto!</h3>
+            <p id="feedbackMessage">¡Has acertado la respuesta!</p>
+            <button id="nextQuestionBtn">Siguiente Pregunta</button>
+        </div>
+
+        <div class="shot-effect" id="shotEffect"></div>
+        <div class="explosion" id="explosion"></div>
+
+        <div class="start-screen" id="startScreen">
+            <h1>DUCK HUNT - UT1 QUIZ</h1>
+            <p>¡Dispara a las letras correctas para responder las preguntas del examen!</p>
+            <button id="startGameBtn">¡Empezar Juego!</button>
+        </div>
+    </div>
+
+    <script>
+        /* --- Mantengo tus preguntas originales tal cual --- */
+        const questions = [
+        {
+        question: "¿Por qué se produjo la crisis del software en los inicios de la industria del software?",
+        options: [
+        "La falta de lenguajes de programación de alto nivel que facilitaran la creación de programas para arquitecturas complejas.",
+        "La escasez de tiempo y recursos destinados al análisis y a la realización de pruebas de seguridad.",
+        "El exceso de inversión en hardware en detrimento del análisis de requisitos.",
+        "La ausencia de arquitecturas de software modulares que permitieran la reutilización del código."
+        ],
+        correctAnswer: 1
+        },
+        {
+        question: "¿Qué hace la Unidad Aritmético Lógica (ALU) en el procesador?",
+        options: [
+        "Coordina el ámbito de las variables locales y globales, asegurando que solo sean visibles dentro de su función o bloque.",
+        "Gestiona el acceso y la transferencia de bits agrupados en unidades denominadas instrucciones en la memoria principal.",
+        "Obtiene la siguiente instrucción a ejecutar, la interpreta y manda 'órdenes' a los diferentes elementos del equipo.",
+        "Realiza operaciones matemáticas y lógicas sencillas, como sumas, restas o comparar los valores entre sí."
+        ],
+        correctAnswer: 3
+        },
+        {
+        question: "En los lenguajes de tipado fuerte, ¿qué característica asegura que las operaciones coincidan con los tipos de datos definidos?",
+        options: [
+        "Evita Errores de Tipos: La principal ventaja de estos lenguajes es que ayudan a prevenir errores de tipos en el código.",
+        "Verificación de Tipos en Tiempo de Compilación: Los lenguajes de tipado fuerte realizan una verificación estricta de tipos durante la compilación.",
+        "No se Realizan Conversiones Implícitas: Si se desea convertir un tipo de dato a otro, generalmente debe hacerse de manera explícita.",
+        "Mejor Legibilidad y Mantenibilidad: El tipado fuerte proporciona una estructura clara de tipos de datos y operaciones permitidas."
+        ],
+        correctAnswer: 1
+        },
+        {
+        question: "¿Qué lenguaje de tipado fuerte se ejecuta en la JVM y combina programación funcional con orientada a objetos?",
+        options: ["TypeScript","Java","Scala","Kotlin"],
+        correctAnswer: 2
+        },
+        {
+        question: "¿Cuándo se destruyen las variables locales en un programa?",
+        options: [
+        "Cuando el bloque de declaraciones en el que se encuentran finaliza su definición inicial.",
+        "Solo cuando el programa principal (ámbito global) llega a su fin.",
+        "Se destruyen al completar la fase de linkado del programa ejecutable.",
+        "Cuando la función o bloque en el que están definidas finaliza su ejecución."
+        ],
+        correctAnswer: 3
+        },
+        {
+        question: "En JavaScript, un lenguaje de tipado débil, ¿qué se puede hacer sin conversiones explícitas?",
+        options: [
+        "Permite operaciones entre diferentes tipos de datos sin la necesidad de conversiones explícitas.",
+        "Impone el uso de un sistema de tipos sólido para la programación funcional y orientada a objetos.",
+        "Garantiza la seguridad y previene errores de memoria, al igual que los lenguajes de sistemas de bajo nivel.",
+        "Permite la Verificación de Tipos en Tiempo de Compilación para garantizar la coherencia de las asignaciones."
+        ],
+        correctAnswer: 0
+        },
+        {
+        question: "¿Qué diferencia hay entre While y Do-While en cuanto a su ejecución?",
+        options: [
+        "El bloque de instrucciones se ejecuta en cada iteración, aunque no suele ser usual indicar varias instrucciones separadas por comas.",
+        "Se ejecuta el bloque contenido en la estructura mientras se cumpla la condición lógica, y posee un bloque de inicialización.",
+        "A diferencia del Do-While, el While puede no ejecutarse ninguna vez si la condición es falsa desde el inicio.",
+        "La evaluación de la condición se ejecuta siempre al final del bloque de instrucciones, garantizando al menos una ejecución."
+        ],
+        correctAnswer: 2
+        },
+        {
+        question: "¿Cuál es la diferencia principal entre pasar un parámetro 'por valor' y 'por referencia'?",
+        options: [
+        "El paso por valor permite a las funciones llamarse a sí mismas, lo que se conoce como recursión para la abstracción del código.",
+        "Cuando se pasa por valor se realiza una copia de la variable, por lo que los cambios dentro de la función no afectan a la variable original.",
+        "Solo el paso por referencia permite el retorno de un valor al finalizar la ejecución de la función mediante la palabra clave return.",
+        "Cuando se pasa por referencia, la función utiliza siempre la dirección de memoria inicial del objeto, sin realizar copias de la variable."
+        ],
+        correctAnswer: 1
+        },
+        {
+        question: "En lenguajes antiguos como C, ¿qué tipo de valores se podían usar en una sentencia Switch?",
+        options: [
+        "Se limitaba a comparar exclusivamente valores flotantes o de punto decimal.",
+        "Se limitaba a evaluar solamente cadenas de texto y valores booleanos.",
+        "Se limitaba a comparar números enteros o caracteres, sin capacidad para evaluar cadenas, booleanos o enumerados.",
+        "Se limitaba a expresiones que devolvieran un valor de referencia o puntero a memoria."
+        ],
+        correctAnswer: 2
+        },
+        {
+        question: "¿Para qué se usa normalmente una función recursiva?",
+        options: [
+        "Se utiliza para especificar el valor que la función devolverá como resultado de su ejecución, utilizando la palabra clave return.",
+        "Se utiliza para la encapsulación y agrupación de funcionalidades relacionadas en librerías o módulos reutilizables.",
+        "Se utiliza para la resolución de problemas que pueden descomponerse en subproblemas que son similares a la tarea principal.",
+        "Se utiliza principalmente para proporcionar una interfaz simple, permitiendo así abstraer la complejidad del código del programa."
+        ],
+        correctAnswer: 2
+        },
+        {
+        question: "Según los fundamentos de la programación, ¿qué es una variable?",
+        options: [
+        "Es una fracción de código identificado por un nombre que se puede reutilizar, que devuelve un tipo de datos y que recibe una serie de argumentos llamados parámetros.",
+        "Se asocia un nombre a una zona de memoria, pero en este caso solo es posible la lectura, sin permitir la modificación posterior del valor almacenado.",
+        "Son expresiones que permiten modificar el flujo de ejecución del programa dependiendo de ciertas condiciones, clasificadas en alternativas o iterativas.",
+        "Es la asociación de un nombre simbólico con una zona de memoria de forma que se puede referenciar por el nombre y no por la dirección de memoria, permitiendo consultar y modificar su valor."
+        ],
+        correctAnswer: 3
+        },
+        {
+        question: "¿Qué lenguaje de tipado fuerte se enfoca en seguridad, rendimiento y combina características de bajo nivel con un sistema de tipos estricto?",
+        options: ["Rust","C#","Python","Swift"],
+        correctAnswer: 0
+        },
+        {
+        question: "Para ejecutar un programa en un lenguaje interpretado, ¿qué debe estar cargado en memoria?",
+        options: [
+        "El intérprete se carga únicamente en la fase de traducción a bytecode, no siendo necesario durante la ejecución línea a línea.",
+        "Solo el código fuente necesita estar cargado en la memoria principal del equipo.",
+        "Tanto el intérprete como el código fuente deben estar cargados en memoria principal para su ejecución secuencial.",
+        "El código compilado a lenguaje objetivo debe ser cargado y enlazado con el intérprete en tiempo de ejecución."
+        ],
+        correctAnswer: 2
+        },
+        {
+        question: "¿Cuál es una ventaja de los lenguajes compilados respecto al programa resultante?",
+        options: [
+        "El código fuente original se compila en un formato binario, lo que puede ocultar el código a usuarios finales o terceros.",
+        "Permiten una mayor interactividad con el código en tiempo de desarrollo y una depuración más rápida.",
+        "El código generado para un sistema sólo funcionará para una arquitectura hardware determinada.",
+        "Ofrecen mayor flexibilidad y portabilidad del código fuente a través de diferentes plataformas de hardware."
+        ],
+        correctAnswer: 0
+        },
+        {
+        question: "Si se quiere ejecutar un programa compilado en otro sistema o arquitectura, ¿qué hay que hacer?",
+        options: [
+        "Solo se requiere un intérprete compatible con el código intermedio (bytecode) generado inicialmente.",
+        "Es necesario volver a compilar con los parámetros requeridos para la arquitectura destino.",
+        "El código objeto puede ser traducido en tiempo de ejecución (JIT) por el sistema destino.",
+        "Es necesario implementar una Máquina Virtual que emule la arquitectura de desarrollo."
+        ],
+        correctAnswer: 1
+        },
+        {
+        question: "¿A qué se traduce un lenguaje de alto nivel mediante un traductor?",
+        options: [
+        "Se convierte a lenguajes de bajo nivel como ensamblador o código máquina denominado código objeto.",
+        "Se traduce solamente a texto para garantizar la facilidad de portar el código fuente entre sistemas.",
+        "Se convierte siempre a un formato intermedio binario conocido como DLL o .SO, que se ejecuta en la JVM.",
+        "Se traduce exclusivamente a código fuente de otro lenguaje de alto nivel para asegurar la compatibilidad."
+        ],
+        correctAnswer: 0
+        },
+        {
+        question: "¿Cómo ejecuta el intérprete el código fuente en los lenguajes interpretados?",
+        options: [
+        "Compila primero todo el código fuente en bytecode y posteriormente lo interpreta completamente.",
+        "Traduce el código fuente línea a línea, detiene la traducción para ejecutarla, y luego pasa a la siguiente línea.",
+        "Utiliza un compilador Just-In-Time para traducir porciones del código fuente a medida que se va necesitando.",
+        "Traduce el programa entero de un lenguaje a otro denominado lenguaje Objetivo antes de la ejecución."
+        ],
+        correctAnswer: 1
+        },
+        {
+        question: "¿Qué hace especial a la compilación JIT en entornos como Java o .NET?",
+        options: [
+        "Reduce la necesidad de librerías dinámicas, ya que todo el código se compila previamente a un código intermedio ejecutable.",
+        "Permite compilar porciones del código fuente a medida que se necesita durante la ejecución, lo que lleva a optimizaciones específicas de la plataforma.",
+        "Facilita la ocultación del código fuente a usuarios finales o terceros, ya que el resultado es siempre un formato binario.",
+        "Asegura que la etapa de desarrollo sea más fácil y que el proceso de depuración (corrección de errores en tiempo de desarrollo) sea más rápido."
+        ],
+        correctAnswer: 1
+        },
+        {
+        question: "¿Qué lenguaje primero compila a bytecode y luego lo ejecuta en una máquina virtual?",
+        options: ["C/C++","Java","Perl","Python"],
+        correctAnswer: 1
+        },
+        {
+        question: "¿Qué ventaja tiene la interpretación frente a la compilación en cuanto al uso de memoria?",
+        options: [
+        "La compilación garantiza la ocultación del código, lo que se traduce en un menor consumo de memoria.",
+        "Los lenguajes compilados son inherentemente más eficientes en tiempo de ejecución que los interpretados.",
+        "El intérprete necesita menos memoria que un compilador al trabajar directamente con el código fuente.",
+        "La compilación JIT puede reducir el consumo de memoria al aplicar optimizaciones específicas de la plataforma."
+        ],
+        correctAnswer: 2
+        },
+        {
+        question: "¿Por qué los lenguajes compilados suelen ser más eficientes que los interpretados?",
+        options: [
+        "Ya que se pueden ejecutar inmediatamente y el proceso de depuración es más rápido que en los interpretados.",
+        "Debido a que el código objeto se ejecuta mucho más rápido que si se interpreta el programa fuente.",
+        "Porque permiten una mayor interactividad con el código en tiempo de desarrollo, facilitando la eficiencia del programador.",
+        "Porque están diseñados para ser independientes de la plataforma, lo que incrementa su portabilidad y eficiencia."
+        ],
+        correctAnswer: 1
+        },
+        {
+        question: "¿Qué diferencia hay entre un editor de código y un procesador de texto al escribir programas?",
+        options: [
+        "Los editores de código trabajan únicamente con texto plano (sin formato), a diferencia de los procesadores que almacenan texto junto con formato e imágenes.",
+        "Los Editores de Código siempre son gratuitos y de código abierto, mientras que los Procesadores de Texto suelen ser aplicaciones comerciales de pago.",
+        "Un Procesador de Texto no puede ser utilizado para escribir el código fuente, ya que no permite el uso de lenguajes de bajo nivel como el ensamblador.",
+        "El Editor de Código proporciona herramientas de depuración y ejecución en tiempo real, mientras que el Procesador de Texto solo maneja la escritura de documentos."
+        ],
+        correctAnswer: 0
+        },
+        // (continúa con el resto de las preguntas en el mismo formato)
+        ];
+
+
+        // --- Variables del juego ---
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let isShooting = false;
+        let targets = [];
+        let gameStarted = false;
+
+        // DOM
+        const startScreen = document.getElementById('startScreen');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const questionBox = document.getElementById('questionBox');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const crosshair = document.getElementById('crosshair');
+        const scoreBoard = document.getElementById('scoreBoard');
+        const feedback = document.getElementById('feedback');
+        const feedbackTitle = document.getElementById('feedbackTitle');
+        const feedbackMessage = document.getElementById('feedbackMessage');
+        const nextQuestionBtn = document.getElementById('nextQuestionBtn');
+        const shotEffect = document.getElementById('shotEffect');
+        const explosion = document.getElementById('explosion');
+
+        // Letras para targets (A, B, C, D)
+        const optionLetters = ['A','B','C','D'];
+
+        // --- Event listeners ---
+        startGameBtn.addEventListener('click', startGame);
+
+        // IMPORTANTE: nextQuestionBtn no debe propagar mousedown ni click que puedan contarse como disparo.
+        nextQuestionBtn.addEventListener('mousedown', (e) => { e.stopPropagation(); });
+        nextQuestionBtn.addEventListener('click', (e) => { e.stopPropagation(); nextQuestion(); });
+
+        // Mover crosshair con el ratón
+        document.addEventListener('mousemove', (e) => {
+            if (gameStarted) {
+                crosshair.style.left = `${e.clientX}px`;
+                crosshair.style.top = `${e.clientY}px`;
+            }
+        });
+
+        // Disparar con click izquierdo (solo si no se está mostrando feedback)
+        document.addEventListener('mousedown', (e) => {
+            if (e.button === 0 && gameStarted && feedback.style.display !== 'block') {
+                shoot();
+            }
+        });
+
+        // Disparar con Enter — pero si feedback visible, Enter avanza pregunta
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && gameStarted) {
+                if (feedback.style.display === 'block') {
+                    // Si estamos viendo feedback, Enter avanza la pregunta
+                    nextQuestion();
+                } else {
+                    // Si no hay feedback, Enter dispara
+                    shoot();
+                }
+            }
+        });
+
+        function startGame() {
+            startScreen.style.display = 'none';
+            gameStarted = true;
+            loadQuestion(currentQuestionIndex);
+        }
+
+        function loadQuestion(index) {
+            if (index >= questions.length) {
+                showFinalScore();
+                return;
+            }
+
+            const question = questions[index];
+            questionText.textContent = question.question;
+
+            // Limpiar opciones y targets previos
+            optionsContainer.innerHTML = '';
+            targets.forEach(t => {
+                // cancelar cualquier loop de movimiento asociado si existe
+                if (t.moveCancel) {
+                    t.moveCancel();
+                }
+                t.remove();
+            });
+            targets = [];
+
+            // Crear opciones clicables debajo (método alternativo)
+            question.options.forEach((option, i) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.textContent = option;
+                optionElement.dataset.index = i;
+                optionElement.addEventListener('click', () => {
+                    // Si feedback visible, ignoramos
+                    if (feedback.style.display === 'block') return;
+                    selectOption(i);
+                });
+                optionsContainer.appendChild(optionElement);
+            });
+
+            // Crear targets para cada opción (A, B, C, D) y comenzar su movimiento
+            createTargets(question.options.length);
+        }
+
+        function createTargets(count) {
+            // posiciones iniciales en % (solo para distribuir)
+            const basePositions = [
+                { x: 15, y: 35 },
+                { x: 35, y: 25 },
+                { x: 60, y: 30 },
+                { x: 80, y: 40 }
+            ];
+
+            for (let i = 0; i < count; i++) {
+                const target = document.createElement('div');
+                target.className = 'target';
+                target.id = `target-${i}`;
+                target.dataset.optionIndex = i;
+
+                // etiqueta A,B,C,D
+                const label = document.createElement('div');
+                label.className = 'label';
+                label.textContent = optionLetters[i] || String.fromCharCode(65 + i);
+                target.appendChild(label);
+
+                // texto dentro del target también (opcional): la letra grande
+                const inner = document.createElement('div');
+                inner.className = 'option-letter';
+                inner.textContent = optionLetters[i] || String.fromCharCode(65 + i);
+                target.appendChild(inner);
+
+                // posición inicial (convertir a vw/vh)
+                const pos = basePositions[i] || { x: 20 + i*20, y: 40 };
+                target.style.left = `${pos.x}vw`;
+                target.style.top  = `${pos.y}vh`;
+
+                // evento click en el target -> dispara/check respuesta
+                target.addEventListener('click', (evt) => {
+                    // evitar que al pulsar en botón u otro elemento se propague
+                    evt.stopPropagation();
+                    if (!isShooting && feedback.style.display !== 'block') {
+                        isShooting = true;
+                        playShotSound();
+                        // efecto visual en el centro del target
+                        const rect = target.getBoundingClientRect();
+                        showShotEffect(rect.left + rect.width/2, rect.top + rect.height/2);
+                        setTimeout(() => {
+                            checkAnswer(i);
+                            isShooting = false;
+                        }, 350);
+                    }
+                });
+
+                document.body.appendChild(target);
+                targets.push(target);
+
+                // Iniciar movimiento aleatorio continuo con rebote (en porcentaje)
+                startTargetMovement(target);
+            }
+        }
+
+        function startTargetMovement(target) {
+            // estado local para la función de movimiento
+            let vw = window.innerWidth;
+            let vh = window.innerHeight;
+
+            // coordenadas actuales en px
+            let rect = target.getBoundingClientRect();
+            let x = rect.left;
+            let y = rect.top;
+
+            // velocidad en px por frame (aleatorio pequeño)
+            let vx = (Math.random() * 2 + 0.5) * (Math.random() < 0.5 ? -1 : 1);
+            let vy = (Math.random() * 1.5 + 0.5) * (Math.random() < 0.5 ? -1 : 1);
+
+            let cancelled = false;
+            function move() {
+                if (cancelled) return;
+                vw = window.innerWidth; vh = window.innerHeight;
+
+                x += vx;
+                y += vy;
+
+                // límites: no salirse del viewport y evitar tapar cuadro de pregunta (top 10% area)
+                const margin = 20; // px
+                const elW = target.offsetWidth;
+                const elH = target.offsetHeight;
+
+                // Rebote horizontal
+                if (x < margin) { x = margin; vx = -vx; }
+                if (x + elW > vw - margin) { x = vw - elW - margin; vx = -vx; }
+
+                // Rebote vertical (evitar overlap con top UI: dejar abajo de 8% o bajo el questionBox)
+                const avoidTop = document.getElementById('questionBox').getBoundingClientRect().bottom + 10;
+                if (y < avoidTop) {
+                    y = avoidTop + Math.abs(vy);
+                    vy = Math.abs(vy);
+                }
+                if (y + elH > vh - margin) { y = vh - elH - margin; vy = -Math.abs(vy); }
+
+                target.style.left = `${x}px`;
+                target.style.top  = `${y}px`;
+
+                target._moveFrame = requestAnimationFrame(move);
+            }
+
+            // guardar función de cancelación para limpiar cuando se cargue nueva pregunta
+            target.moveCancel = () => {
+                cancelled = true;
+                if (target._moveFrame) cancelAnimationFrame(target._moveFrame);
+            };
+
+            // arrancar con un ligero retraso (más natural)
+            target._moveFrame = requestAnimationFrame(move);
+        }
+
+        function selectOption(index) {
+            if (!isShooting && feedback.style.display !== 'block') {
+                isShooting = true;
+                playShotSound();
+                showShotEffect(); // sin coordenadas, efecto central
+                setTimeout(() => {
+                    checkAnswer(index);
+                    isShooting = false;
+                }, 350);
+            }
+        }
+
+        function checkAnswer(selectedIndex) {
+            const currentQuestion = questions[currentQuestionIndex];
+            const isCorrect = selectedIndex === currentQuestion.correctAnswer;
+
+            feedbackTitle.textContent = isCorrect ? '¡Correcto!' : '¡Incorrecto!';
+            feedbackMessage.textContent = isCorrect ?
+                `¡Has acertado la respuesta! ${currentQuestion.explanation}` :
+                `La respuesta correcta era: ${currentQuestion.options[currentQuestion.correctAnswer]}. ${currentQuestion.explanation}`;
+
+            if (isCorrect) {
+                score++;
+                scoreBoard.textContent = `Puntuación: ${score}`;
+                playHitSound();
+            } else {
+                playMissSound();
+            }
+
+            // Mostrar un pequeño efecto (explosion) en la posición del crosshair
+            showExplosion();
+
+            // mostrar feedback y bloquear interacción hasta que el usuario pulse Siguiente
+            feedback.style.display = 'block';
+        }
+
+        function nextQuestion() {
+            // Ocultar feedback y pasar a la siguiente pregunta
+            feedback.style.display = 'none';
+            currentQuestionIndex++;
+            if (currentQuestionIndex >= questions.length) {
+                showFinalScore();
+            } else {
+                loadQuestion(currentQuestionIndex);
+            }
+        }
+
+        function showFinalScore() {
+            // Ocultar elementos principales y mostrar resumen final en el modal feedback
+            questionBox.style.display = 'none';
+            feedback.style.display = 'block';
+            feedbackTitle.textContent = '¡Juego Terminado!';
+            feedbackMessage.textContent = `Tu puntuación final es: ${score} de ${questions.length} preguntas.`;
+            nextQuestionBtn.textContent = 'Jugar de Nuevo';
+            // Reemplazar el comportamiento del botón para reiniciar
+            nextQuestionBtn.removeEventListener('click', nextQuestion);
+            nextQuestionBtn.addEventListener('click', restartGame);
+        }
+
+        function restartGame() {
+            // Limpiar y reiniciar
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreBoard.textContent = `Puntuación: ${score}`;
+            // limpiar listeners del botón (en caso)
+            nextQuestionBtn.removeEventListener('click', restartGame);
+            nextQuestionBtn.textContent = 'Siguiente Pregunta';
+            nextQuestionBtn.addEventListener('click', (e) => { e.stopPropagation(); nextQuestion(); });
+            feedback.style.display = 'none';
+            questionBox.style.display = 'block';
+            startGame();
+        }
+
+        function shoot() {
+            if (!isShooting && feedback.style.display !== 'block') {
+                isShooting = true;
+                playShotSound();
+                showShotEffect(crosshair.offsetLeft + crosshair.offsetWidth/2, crosshair.offsetTop + crosshair.offsetHeight/2);
+
+                setTimeout(() => {
+                    const hitTarget = getTargetUnderCrosshair();
+                    if (hitTarget) {
+                        const selectedIndex = parseInt(hitTarget.dataset.optionIndex);
+                        checkAnswer(selectedIndex);
+                    } else {
+                        // feedback por fallo
+                        feedbackTitle.textContent = '¡Fallaste!';
+                        feedbackMessage.textContent = 'Inténtalo de nuevo.';
+                        feedback.style.display = 'block';
+                        playMissSound();
+                    }
+                    isShooting = false;
+                }, 300);
+            }
+        }
+
+        function getTargetUnderCrosshair() {
+            const crosshairRect = crosshair.getBoundingClientRect();
+            const centerX = crosshairRect.left + crosshairRect.width / 2;
+            const centerY = crosshairRect.top + crosshairRect.height / 2;
+
+            for (const target of targets) {
+                const targetRect = target.getBoundingClientRect();
+                if (centerX >= targetRect.left &&
+                    centerX <= targetRect.right &&
+                    centerY >= targetRect.top &&
+                    centerY <= targetRect.bottom) {
+                    return target;
+                }
+            }
+            return null;
+        }
+
+        function showShotEffect(x = 0, y = 0) {
+            if (x === 0 && y === 0) {
+                // centrar efecto en la pantalla si no hay coords
+                x = window.innerWidth / 2;
+                y = window.innerHeight / 2;
+            }
+            shotEffect.style.left = `${x}px`;
+            shotEffect.style.top = `${y}px`;
+            shotEffect.style.display = 'block';
+            setTimeout(() => { shotEffect.style.display = 'none'; }, 300);
+        }
+
+        function showExplosion() {
+            explosion.style.left = `${crosshair.offsetLeft}px`;
+            explosion.style.top = `${crosshair.offsetTop}px`;
+            explosion.style.display = 'block';
+            setTimeout(() => { explosion.style.display = 'none'; }, 300);
+        }
+
+        // Sonidos (AudioContext) — se mantienen como en el original
+        function playShotSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.type = 'sawtooth';
+                oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.1);
+            } catch (e) {
+                // si AudioContext falla (por políticas del navegador), no romper la experiencia
+                // console.warn('Audio no disponible', e);
+            }
+        }
+
+        function playHitSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.type = 'sine';
+                oscillator.frequency.setValueAtTime(1000, audioContext.currentTime);
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.2);
+            } catch(e){}
+        }
+
+        function playMissSound() {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.type = 'triangle';
+                oscillator.frequency.setValueAtTime(300, audioContext.currentTime);
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                gainNode.gain.setValueAtTime(0.08, audioContext.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.2);
+
+                oscillator.start();
+                oscillator.stop(audioContext.currentTime + 0.2);
+            } catch(e){}
+        }
+
+        // Arranque inicial (si quieres que comience al abrir, activa startGame();)
+        // Por ahora dejamos la pantalla de inicio tal cual: usuario pulsa "¡Empezar Juego!"
+    </script>
+</body>
+</html>
